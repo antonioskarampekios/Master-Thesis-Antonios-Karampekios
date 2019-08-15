@@ -1,0 +1,1957 @@
+{UTF-8}
+coefficient demand for labor=
+	initial demand for labor*initial average wage level/(initial real GDP*Billions)
+	~	Dmnl
+	~		|
+
+Total Companies Expenditures=
+	Companies capital investments*Year+Corporate profit tax+Compensation of private employees\
+		+other capital expenditure+other taxes on production
+	~	BEuros/Year
+	~		|
+
+nominal GDP=
+	cumulative GDP/Year
+	~	BEuros/Year
+	~		|
+
+shareholders shares=
+	(profit*shareholders shares as percentage of profits)*Year
+	~	BEuros/Year
+	~		|
+
+balance of net primary income=
+	balance of gross primary income-Consumption of fixed capital*Year
+	~	BEuros/Year
+	~		|
+
+private consumption=
+	(real disposable income-private real savings)/Year
+	~	BEuros/Year
+	~		|
+
+dividends to households=
+	(dividends to households as percentage of profits*profit)*Year
+	~	BEuros/Year
+	~		|
+
+net disposable income=
+	gross saving-Consumption of fixed capital*Year
+	~	BEuros/Year
+	~		|
+
+net lending=
+	gross saving-other capital expenditure-Companies capital investments*Year
+	~	BEuros/Year
+	~		|
+
+profit=
+	cumulative net profit/Year
+	~	BEuros/Year
+	~		|
+
+Gross value added=
+	0.382*(nominal GDP-Public investments*Year-compensation of public employees)
+	~	BEuros/Year
+	~	The constant is calculated as the percentage of companies' gross value \
+		added on the total gross value of the econonmy. Based on Ameco data
+	|
+
+initial net profit=
+	6.6
+	~	BEuros
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/SelectSerie.cfm
+	|
+
+cumulative net profit= INTEG (
+	(revenue companies-companies expenditures-profit),
+		initial net profit)
+	~	BEuros
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/SelectSerie.cfm
+	|
+
+net balance flow=
+	Net Balance*GDP deflator
+	~	BEuros/Year
+	~		|
+
+public expenditure flow=
+	Public expenditure
+	~	BEuros/Year
+	~		|
+
+companies expenditures=
+	Total Companies Expenditures
+	~	BEuros/Year
+	~		|
+
+profit rate=
+	profit/Gross capital formation companies/GDP deflator
+	~	Dmnl
+	~		|
+
+revenue companies=
+	Total Revenue Companies
+	~	BEuros/Year
+	~		|
+
+private consumption flow=
+	private consumption
+	~	BEuros/Year
+	~		|
+
+cumulative GDP= INTEG (
+	public expenditure flow+private consumption flow+total gross capital formation flow+\
+		net balance flow-nominal GDP,
+		initial nominal GDP)
+	~	BEuros
+	~		|
+
+total gross capital formation flow=
+	Total gross capital formation
+	~	BEuros/Year
+	~		|
+
+Workforce[LaborForce]= INTEG (
+	Hiring[LaborForce]-Ageing of workforce[LaborForce]-Firing[LaborForce],
+		initial Workforce[LaborForce])
+	~	Person
+	~		|
+
+savings rate=
+	propensity to save*real GDP
+	~	BEuros/Year
+	~		|
+
+private real savings= INTEG (
+	savings rate,
+		initial gross savings)
+	~	BEuros
+	~		|
+
+Companies capital investments=
+	investments as percentage of profit*profit
+	~	BEuros/Year/Year
+	~		|
+
+initial demand for labor=
+	3.91601e+06
+	~	Person
+	~		|
+
+Total Demand for labor=
+	Year*real GDP*Billions*coefficient demand for labor/average real wage level
+	~	Person
+	~		|
+
+initial gross capital formation government=
+	7.9
+	~	BEuros/Year
+	~		|
+
+gross capital formation government= INTEG (
+	Public investments-consumption of government gross capital formation,
+		initial gross capital formation government)
+	~	BEuros/Year
+	~		|
+
+Total initial Workforce=
+	SUM(initial Workforce[LaborForce!])
+	~	Person
+	~		|
+
+export coefficient=
+	(initial real exports/(((initial real GDP EU/unit Billion)^export income elasticity)\
+		*((exchange rate*price deflator of exports goods and services Greece
+	/price deflator exports of goods and services EU)^price export elasticity)))/unit Billion
+	~	Dmnl
+	~		|
+
+compensation of public employees=
+	nmr public employees*average real wage level/(Billions*Year)
+	~	BEuros/Year
+	~	ELSTAT this was 21Billion in 2017
+	|
+
+Exports=
+	(unit Billion*export coefficient*((real GDP EU/unit Billion)^export income elasticity\
+		)*((exchange rate*price deflator of exports goods and services Greece/
+	price deflator exports of goods and services EU)^price export elasticity))/Year
+	~	BEuros/Year
+	~		|
+
+propensity to save=
+	0.05
+	~	Dmnl
+	~		|
+
+death rate[AgeGroups]= WITH LOOKUP (
+	Average age per age group[AgeGroups]/Year,
+		([(2.5,0)-(83,0.1)],(2.5,0.00086),(7.5,0.000115),(12.5,8.9e-05),(17.5,0.000235),(22.5\
+		,0.000359),(27.5,0.000366),(32.5,
+		0.0005),(37.5,0.000768),(42.5,0.001176),(47.5,0.002214),(52.5,0.003516),(57.5,0.005827\
+		),(62.5,0.008498),(67.5,0.014173),
+		(72.5,0.0167),(77.5,0.031517),(82.5,0.121646) ))
+	~	1/Year
+	~	http://data.un.org/Data.aspx?d=POP&f=tableCode%3a7
+		
+		Author's calculations based on number of deaths and population per cohort
+	|
+
+Compensation of private employees=
+	nmr private employees*average real wage level/(Billions*Year)
+	~	BEuros/Year
+	~	Salaries paid to employees
+	|
+
+import coefficient=
+	(initial real imports/unit Billion)/(((initial real GDP Greece/unit Billion)^import income elasticity\
+		)*((exchange rate*price deflator of imports goods and services Greece
+	/price deflator imports goods and services EU)^price import elasticity))
+	~	Dmnl
+	~		|
+
+Initial population[AgeGroups]= WITH LOOKUP (
+	Average age per age group[AgeGroups]/Year,
+		([(0,0)-(83,1e+06)],(2.5,537243),(7.5,512596),(12.5,519429),(17.5,553276),(22.5,627097\
+		),(27.5,723771),(32.5,822475),(37.5
+		,812829),(42.5,832666),(47.5,748429),(52.5,731486),(57.5,660368),(62.5,625769),(67.5\
+		,508276),(72.5,542165),(77.5,475077)
+		,(82.5,583334) ))
+	~	Person
+	~		|
+
+Imports=
+	(unit Billion*import coefficient*((Year*real GDP/unit Billion)^import income elasticity\
+		)*((exchange rate*price deflator of imports goods and services Greece
+	/price deflator imports goods and services EU)^price import elasticity))/Year
+	~	BEuros/Year
+	~		|
+
+productivity growth factor=
+	-0.01
+	~	1/Year
+	~	https://data.oecd.org/lprdty/labour-productivity-and-utilisation.htm
+	|
+
+Employment per age[LaborForce]= WITH LOOKUP (
+	Average age per age group[LaborForce]/Year,
+		([(0,0)-(100,1)],(0,0),(17.5,0.14),(22.5,0.14),(27.5,0.69),(32.5,0.69),(37.5,0.69),\
+		(42.5,0.69),(47.5,0.69)
+		,(52.5,0.69),(57.5,0.41),(62.5,0.41),(67.5,0),(72.5,0),(85,0) ))
+	~	Dmnl
+	~	https://data.oecd.org/emp/employment-rate-by-age-group.htm
+		Relative employment as a percentage of the total population per cohort, \
+		and not labor force
+	|
+
+unit Billion=
+	1
+	~	BEuros
+	~		|
+
+initial labour productivity=
+	initial real GDP/SUM(initial Workforce[LaborForce!])*Billions
+	~	Euros/Person
+	~		|
+
+Net Balance=
+	Exports-Imports
+	~	BEuros/Year
+	~		|
+
+Year=
+	1
+	~	Year
+	~		|
+
+real disposable income= INTEG (
+	total real income-taxes paid by households,
+		initial real disposable income)
+	~	BEuros
+	~		|
+
+Billions=
+	1e+09
+	~	Euros/BEuros
+	~		|
+
+public savings as a ratio of public budget balance=
+	1-public investments as a ratio of public budget balance
+	~	1/Year
+	~		|
+
+Revenue from personal income tax=
+	Compensation of employees*tax rate on personal income
+	~	BEuros/Year
+	~		|
+
+initial real disposable income=
+	150.654
+	~	BEuros
+	~	ELSTAT data
+	|
+
+"weighted factor productivity-wages"=
+	0.8
+	~	Dmnl
+	~		|
+
+wage level growth=
+	productivity growth factor*average real wage level*"weighted factor productivity-wages"
+	~	Euros/(Year*Person)
+	~		|
+
+Retired:
+	Age65to69,Age70to74,Age75to79,Age80plus
+	~	Person
+	~		|
+
+Total nmr retired=
+	SUM(Population[Retired!])
+	~	Person
+	~		|
+
+LabourForceButOldest:
+	Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44,Age45to49,Age50to54,Age55to59
+	~	
+	~		|
+
+LabourForceButYoungest:
+	Age20to24,Age25to29,Age30to34,Age35to39,Age40to44,Age45to49,Age50to54,Age55to59,Age60to64
+	~	
+	~		|
+
+LabourForcePreviousAgeGroup:
+	LabourForceButOldest -> LabourForceButYoungest
+	~	
+	~		|
+
+AllButYoungest:
+	Age5to9,Age10to14,Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44,Age45to49\
+		,Age50to54,Age55to59,Age60to64,Age65to69,Age70to74,Age75to79,Age80plus
+	~	
+	~		|
+
+Subsidies=
+	nominal GDP*subsidies as percentage of GDP
+	~	BEuros/Year
+	~		|
+
+Ageing of workforce[LaborForce]=
+	relative change working population per group[LaborForce]*Workforce[LaborForce]
+	~	Person/Year
+	~		|
+
+real GDP EU= INTEG (
+	EU GDP growth rate/GDP deflator EU,
+		initial real GDP EU)
+	~	BEuros
+	~		|
+
+Gross capital formation companies= INTEG (
+	Companies capital investments-Consumption of fixed capital,
+		initial capital formation companies)
+	~	BEuros/Year
+	~		|
+
+interest payments=
+	interest rate as percentage of GDP*nominal GDP
+	~	BEuros/Year
+	~		|
+
+Social Benefits=
+	social benefits as percentage of GDP*nominal GDP
+	~	BEuros/Year
+	~		|
+
+Capital transfers paid=
+	capital transfers as percentage of GDP*nominal GDP
+	~	BEuros/Year
+	~		|
+
+public debt as percentage of GDP=
+	Public debt/nominal GDP
+	~	Year
+	~		|
+
+Revenue from Property tax=
+	nominal GDP*property tax as percentage of the GDP
+	~	BEuros/Year
+	~		|
+
+initial real GDP EU=
+	initial nominal GDP EU/GDP deflator EU
+	~	BEuros
+	~		|
+
+real GDP=
+	nominal GDP/GDP deflator
+	~	BEuros/Year
+	~		|
+
+Public budget balance as percentage of GDP=
+	Public Budget Balance including interest payments/nominal GDP
+	~	Dmnl
+	~		|
+
+Total Expenditures including interest payments=
+	(Capital transfers paid+compensation of public employees+Goods and services+Social Benefits\
+		+Subsidies+interest payments
+	)/GDP deflator
+	~	BEuros/Year
+	~		|
+
+total expenditures excluding interest payments=
+	Total Expenditures including interest payments-interest payments
+	~	BEuros/Year
+	~		|
+
+public investments as a ratio of public budget balance=
+	0.5
+	~	1/Year
+	~		|
+
+net current transfers received=
+	-1.3
+	~	BEuros/Year
+	~		|
+
+net property income companies=
+	-1.1
+	~	BEuros/Year
+	~		|
+
+net property income households=
+	4.4
+	~	BEuros/Year
+	~		|
+
+nmr private employees=
+	Total Workforce*percentage private employees
+	~	Person
+	~		|
+
+nmr public employees=
+	Total Workforce*percentage public employees
+	~	Person
+	~		|
+
+balance of gross primary income=
+	gross operating surplus+net property income companies
+	~	BEuros/Year
+	~		|
+
+other subsidies on production=
+	0.8
+	~	BEuros/Year
+	~		|
+
+capacity utilization=
+	MIN(1,profit rate/profit share*"capital-output ratio")
+	~	Dmnl
+	~		|
+
+capital transfers as percentage of GDP=
+	0.03524
+	~	Dmnl
+	~		|
+
+"capital-output ratio"=
+	0.333
+	~	Dmnl
+	~		|
+
+social benefits as percentage of GDP=
+	0.213
+	~	Dmnl
+	~		|
+
+initial government debt=
+	317.414
+	~	BEuros
+	~	ELSTAT report
+	|
+
+Compensation of employees=
+	Compensation of private employees+compensation of public employees+dividends to households
+	~	BEuros/Year
+	~		|
+
+Consumption of fixed capital=
+	depreciation rate*Gross capital formation companies
+	~	BEuros/Year/Year
+	~		|
+
+consumption of government gross capital formation=
+	depreciation rate*gross capital formation government
+	~	BEuros/Year/Year
+	~		|
+
+Corporate profit tax=
+	profit*corporate profit tax rate
+	~	BEuros/Year
+	~		|
+
+corporate profit tax rate=
+	0.29
+	~	Dmnl
+	~	https://tradingeconomics.com/greece/corporate-tax-rate
+	|
+
+profit share=
+	profit/Total Revenue Companies
+	~	Dmnl
+	~		|
+
+depreciation rate=
+	0.1
+	~	1/Year
+	~		|
+
+dividends to households as percentage of profits=
+	0.1
+	~	1/Year
+	~		|
+
+EU GDP growth rate=
+	real GDP EU*growth rate EU
+	~	BEuros/Year
+	~		|
+
+exchange rate=
+	1
+	~	Dmnl
+	~	https://data.oecd.org/conversion/exchange-rates.htm
+	|
+
+export income elasticity=
+	1
+	~	Dmnl
+	~	Default value for export elasticity
+	|
+
+Public expenditure=
+	Goods and services+compensation of public employees
+	~	BEuros/Year
+	~		|
+
+Public investments=
+	IF THEN ELSE( Public Budget Balance including interest payments<0 , 0 , Public Budget Balance including interest payments\
+		*public investments as a ratio of public budget balance )
+	~	BEuros/Year/Year
+	~		|
+
+initial gross savings=
+	4.757
+	~	BEuros
+	~	https://www.ceicdata.com/en/greece/esa-2010-quarterly-sector-accounts-non-f\
+		inancial-corporations/nfc-balance-gross-savings
+	|
+
+tax rate on personal income=
+	0.3
+	~	Dmnl
+	~	https://tradingeconomics.com/greece/sales-tax-rate
+	|
+
+GDP deflator EU=
+	1.091
+	~	Dmnl
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+Goods and services=
+	14.173
+	~	BEuros/Year
+	~	ELSTAT data shows that expenses for goods and services are 9 Billion.The \
+		difference is assumed to be due to indirect taxes to the government.This \
+		variable is assumed constant for the rest of the model, as it does not \
+		fluxtuate significantly
+	|
+
+gross capital formation households=
+	4.2
+	~	BEuros/Year
+	~		|
+
+gross operating surplus=
+	Gross value added-Compensation of private employees-other taxes on production+other subsidies on production
+	~	BEuros/Year
+	~		|
+
+gross saving=
+	balance of gross primary income-Corporate profit tax+net current transfers received
+	~	BEuros/Year
+	~	gross disposable income also
+	|
+
+growth rate EU=
+	0.01
+	~	1/Year
+	~		|
+
+import income elasticity=
+	1
+	~	Dmnl
+	~	Default value for import elasticity
+	|
+
+initial capital formation companies=
+	10.1
+	~	BEuros/Year
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+initial real exports=
+	56.646
+	~	BEuros
+	~	elstat data
+	|
+
+Total gross capital formation=
+	Gross capital formation companies+gross capital formation government+gross capital formation households
+	~	BEuros/Year
+	~		|
+
+price deflator exports of goods and services EU=
+	1.061
+	~	Dmnl
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+initial net balance=
+	initial real exports-initial real imports
+	~	BEuros
+	~		|
+
+price deflator of exports goods and services Greece=
+	0.995
+	~	Dmnl
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+initial nominal GDP EU=
+	15499.9
+	~	BEuros
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm,2017
+	|
+
+initial real GDP Greece=
+	179.144
+	~	BEuros
+	~	ELSTAT data
+	|
+
+initial real imports=
+	58.163
+	~	BEuros
+	~	elstat data
+	|
+
+interest rate as percentage of GDP=
+	0.031
+	~	Dmnl
+	~		|
+
+investments as percentage of profit=
+	0.5
+	~	1/Year
+	~		|
+
+Public debt= INTEG (
+	Total Expenditures including interest payments-Total government revenue,
+		initial government debt)
+	~	BEuros
+	~		|
+
+percentage public employees=
+	0.18
+	~	Dmnl
+	~	https://www.forbes.com/sites/niallmccarthy/2017/07/21/scandinavia-leads-the\
+		-world-in-public-sector-employment-infographic/
+	|
+
+Revenue from corporate tax=
+	Corporate profit tax
+	~	BEuros/Year
+	~		|
+
+subsidies as percentage of GDP=
+	0.00926
+	~	Dmnl
+	~		|
+
+price deflator imports goods and services EU=
+	1.044
+	~	Dmnl
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+price deflator of imports goods and services Greece=
+	0.946
+	~	Dmnl
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+price export elasticity=
+	-2.02
+	~	Dmnl
+	~		|
+
+price import elasticity=
+	-0.63
+	~	Dmnl
+	~		|
+
+percentage private employees=
+	1-percentage public employees
+	~	Dmnl
+	~		|
+
+shareholders shares as percentage of profits=
+	1-dividends to households as percentage of profits-investments as percentage of profit
+	~	1/Year
+	~		|
+
+other capital expenditure=
+	-0.7
+	~	BEuros/Year
+	~	AMECO Data,constant for the model
+	|
+
+Total Revenue Companies=
+	Gross value added+net current transfers received+net property income companies+other subsidies on production
+	~	BEuros/Year
+	~		|
+
+taxes paid by households=
+	Revenue from personal income tax+Revenue from Property tax+Revenue from Social contribution\
+		+Revenue from value added tax
+	~	BEuros/Year
+	~		|
+
+property tax as percentage of the GDP=
+	0.032
+	~	Dmnl
+	~	https://data.oecd.org/tax/tax-on-property.htm
+	|
+
+other taxes on production=
+	4.7
+	~	BEuros/Year
+	~	http://ec.europa.eu/economy_finance/ameco/user/serie/ResultSerie.cfm
+	|
+
+value added tax rate=
+	0.24
+	~	Dmnl
+	~	https://tradingeconomics.com/greece/sales-tax-rate
+	|
+
+Total government revenue=
+	(Revenue from corporate tax+Revenue from personal income tax+Revenue from Property tax\
+		+Revenue from value added tax+Revenue from Social contribution
+	)/GDP deflator
+	~	BEuros/Year
+	~		|
+
+Revenue from Social contribution=
+	25.966
+	~	BEuros/Year
+	~	ELSTAT Data
+	|
+
+total real income=
+	(Compensation of employees+net property income households+Social Benefits)/GDP deflator
+	~	BEuros/Year
+	~		|
+
+Public Budget Balance including interest payments=
+	Total government revenue-Total Expenditures including interest payments
+	~	BEuros/Year
+	~		|
+
+Revenue from value added tax=
+	private consumption*value added tax rate
+	~	BEuros/Year
+	~		|
+
+average real wage level= INTEG (
+	wage level growth,
+		initial average wage level)
+	~	Euros/Person
+	~		|
+
+average nominal wage=
+	average real wage level*GDP deflator
+	~	Euros/Person
+	~		|
+
+initial average wage level=
+	17336
+	~	Euros/Person
+	~	https://stats.oecd.org/Index.aspx?DataSetCode=AV_AN_WAGE#
+	|
+
+initial Workforce[LaborForce]=
+	Employment per age[LaborForce]*Population[LaborForce]
+	~	Person
+	~		|
+
+Relative difference between potential and actual workforce=
+	( Total Demand for labor - SUM ( Workforce[LaborForce!] ) ) / SUM ( Workforce[LaborForce\
+		!] )
+	~	Dmnl
+	~		|
+
+labour productivity growth=
+	productivity growth factor*labour productivity
+	~	Euros/(Person*Year)
+	~		|
+
+inflation rate=
+	0.02
+	~	1/Year
+	~	https://data.oecd.org/price/inflation-cpi.htm
+	|
+
+Available Labor Force[LaborForce]=
+	Population[LaborForce]*labor force participation rate
+	~	Person
+	~		|
+
+Hiring[LaborForce]=
+	MAX(Relative difference between potential and actual workforce,0) / average hiring time for new workforce\
+		* (Available Labor Force[LaborForce]-Workforce[LaborForce])
+	~	Person/Year
+	~		|
+
+average firing time workforce=
+	1
+	~	Year
+	~		|
+
+average hiring time for new workforce=
+	0.5
+	~	Year
+	~		|
+
+relative change working population per group[LaborForce]=
+	(Deaths[LaborForce]+Ageing[LaborForce]) / Population[LaborForce]
+	~	1/Year
+	~		|
+
+youth unemployment rate=
+	(SUM(Available Labor Force[Youth!])-SUM(Workforce[Youth!])) / SUM(Available Labor Force\
+		[Youth!])
+	~	Dmnl
+	~		|
+
+unemployment rate=
+	MAX( SUM (Available Labor Force[LaborForce!])-SUM ( Workforce[LaborForce!]),0)/SUM (\
+		Available Labor Force[LaborForce!])
+	~	Dmnl
+	~		|
+
+Firing[LaborForce]=
+	MAX(-Relative difference between potential and actual workforce,0)/average firing time workforce\
+		*Workforce[LaborForce]
+	~	Person/Year
+	~		|
+
+GDP deflator= INTEG (
+	inflation,
+		initial GDP deflator)
+	~	Dmnl
+	~		|
+
+initial real GDP=
+	initial nominal GDP/initial GDP deflator
+	~	BEuros
+	~		|
+
+Total available Labor force=
+	SUM(Available Labor Force[LaborForce!])
+	~	Person
+	~	SUM ( Available workforce[Working population!] )
+	|
+
+inflation=
+	inflation rate*GDP deflator
+	~	1/Year
+	~		|
+
+initial GDP deflator=
+	1.006
+	~	Dmnl
+	~		|
+
+initial nominal GDP=
+	180.218
+	~	BEuros
+	~		|
+
+Total Population=
+	SUM(Population[AgeGroups!])
+	~	Person
+	~	http://data.un.org/Data.aspx?q=Thailand&d=PopDiv&f=variableID%3a12%3bcrID%3a764
+		Comparison to predictions of the UN
+	|
+
+Youth:
+	Age15to19,Age20to24,Age25to29
+	~	
+	~		|
+
+unemployment rate per age[LaborForce]=
+	MAX(Available Labor Force[LaborForce]-Workforce[LaborForce],0)/ Available Labor Force\
+		[LaborForce]
+	~	Dmnl
+	~		|
+
+labour productivity= INTEG (
+	labour productivity growth,
+		initial labour productivity)
+	~	Euros/Person
+	~		|
+
+Total Workforce=
+	SUM(Workforce[LaborForce!])
+	~	Person
+	~		|
+
+labor force participation rate=
+	0.683
+	~	Dmnl
+	~	https://data.oecd.org/emp/labour-force-participation-rate.htm
+	|
+
+Population[Age0to4]= INTEG (
+	Births-Ageing[Age0to4]-Deaths[Age0to4]-migration,
+		Initial population[Age0to4]) ~~|
+Population[AllButYoungestAndOldest]= INTEG (
+	Ageing[PreviousAgeGroups]-Ageing[AllButYoungestAndOldest]-Deaths[AllButYoungestAndOldest\
+		]-migration,
+		Initial population[AllButYoungestAndOldest]) ~~|
+Population[Age80plus]= INTEG (
+	Ageing[Age75to79]-Deaths[Age80plus],
+		Initial population[Age80plus])
+	~	Person
+	~	Ageing[PreviousAgeGroups]-Ageing[AllButYoungestAndOldest]-Deaths[AllButYoun\
+		gestAndOldest]
+	|
+
+LaborForce:
+	Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44,Age45to49,Age50to54,Age55to59\
+		,Age60to64
+	~	Person
+	~		|
+
+Average fertility per woman=
+	1.3
+	~	Dmnl
+	~	https://data.oecd.org/pop/fertility-rates.htm
+	|
+
+Stock per cohort[AgeGroups]=
+	Population[AgeGroups]/SUM(Population[AgeGroups!])
+	~	Dmnl
+	~		|
+
+migration=
+	0
+	~	Person/Year
+	~		|
+
+PreviousOneYear:
+	(L0-L98) -> MiddleAgeGroups
+	~	
+	~		|
+
+MiddleAgeGroups:
+	(L1-L99)
+	~	
+	~		|
+
+Average life expectancy=
+	SUM(Population[AgeGroups!])/SUM(Deaths[AgeGroups!])
+	~	Year
+	~		|
+
+Life expectancy per age group[AgeGroups]=
+	Population[AgeGroups]/Deaths[AgeGroups]
+	~	Year
+	~		|
+
+Children:
+	Age0to4,Age5to9,Age10to14,Age15to19
+	~	
+	~		|
+
+Cohorts:
+	(L0-L100)
+	~	
+	~		|
+
+Total Working age population=
+	SUM(Population[LaborForce!])
+	~	Person
+	~	https://data.oecd.org/emp/labour-force-participation-rate.htm
+	|
+
+AgeGroups:
+	Age0to4,Age5to9,Age10to14,Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44\
+		,Age45to49,Age50to54,Age55to59,Age60to64,Age65to69,Age70to74,Age75to79,Age80plus
+	~	
+	~		|
+
+Ageing[AgeGroups]=
+	Population[AgeGroups]/Average time per age group
+	~	Person/Year
+	~		|
+
+AllButYoungestAndOldest:
+	Age5to9,Age10to14,Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44,Age45to49\
+		,Age50to54,Age55to59,Age60to64,Age65to69,Age70to74,Age75to79
+	~	
+	~		|
+
+Average age per age group[AgeGroups]=
+	2.5, 7.5, 12.5, 17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5, 52.5 , 57.5, 62.5 , 67.5, \
+		72.5, 77.5, 82.5
+	~	Year
+	~		|
+
+Average time per age group=
+	5
+	~	Year
+	~		|
+
+Births=
+	Average fertility per woman * relative share women in fertile age * SUM(Population[FertileAge\
+		!])/Years in fertile age
+	~	Person/Year
+	~		|
+
+Deaths[AgeGroups]=
+	Population[AgeGroups] * death rate[AgeGroups]
+	~	Person/Year
+	~		|
+
+FertileAge:
+	Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44
+	~	
+	~		|
+
+PreviousAgeGroups:
+	Age0to4,Age5to9,Age10to14,Age15to19,Age20to24,Age25to29,Age30to34,Age35to39,Age40to44\
+		,Age45to49,Age50to54,Age55to59,Age60to64,Age65to69,Age70to74 -> AllButYoungestAndOldest
+	~	
+	~		|
+
+relative share women in fertile age=
+	0.5
+	~	Dmnl
+	~		|
+
+Years in fertile age=
+	30
+	~	Year
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2050
+	~	Year
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 2017
+	~	Year
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 0.125
+	~	Year [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.03125
+	~	Year [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,50,2
+10,1,Population,3349,2340,59,43,3,131,0,0,0,0,0,0
+12,2,48,3072,2318,10,8,0,3,0,0,-1,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(3239,2318)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(3130,2318)|
+11,5,48,3184,2318,5,6,34,3,0,0,1,0,0,0
+10,6,Births,3184,2334,21,10,40,3,0,0,-1,0,0,0
+12,7,48,3375,2528,10,8,0,3,0,0,-1,0,0,0
+1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(3374,2479)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(3374,2405)|
+11,10,48,3374,2433,6,5,33,3,0,0,4,0,0,0
+10,11,Deaths,3403,2433,23,10,40,3,0,0,-1,0,0,0
+1,12,13,1,100,0,0,22,0,0,0,-1--1--1,,1|(3450,2321)|
+11,13,3148,3498,2321,5,6,34,3,0,0,1,0,0,0
+10,14,Ageing,3498,2337,24,10,40,3,0,0,-1,0,0,0
+1,15,13,1,4,0,0,22,2,0,0,-1--1--1,|12||0-0-0,4|(3498,2195)|(3498,2195)|(3336,2195)|(3336,2246)|
+1,16,1,14,1,0,0,0,0,64,0,-1--1--1,,1|(3445,2365)|
+10,17,Average time per age group,3652,2209,58,18,8,3,0,16,0,0,0,0,0-0-0,0-0-0,|12|I|0-0-0
+10,18,Initial population,3237,2398,36,18,8,3,0,0,-1,0,0,0
+1,19,17,14,0,0,0,0,0,64,0,-1--1--1,,1|(3575,2272)|
+10,20,Average age per age group,3225,2539,55,18,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,21,20,18,0,0,0,0,0,64,0,-1--1--1,,1|(3229,2475)|
+10,22,Average fertility per woman,3158,2450,55,18,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,23,22,6,1,0,0,0,0,64,0,-1--1--1,,1|(3135,2388)|
+10,24,relative share women in fertile age,2961,2362,70,18,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|I|255-0-0
+1,25,24,6,0,0,0,0,0,64,0,-1--1--1,,1|(3090,2345)|
+1,26,1,6,1,0,0,0,0,64,0,-1--1--1,,1|(3246,2372)|
+10,27,Years in fertile age,3084,2268,51,18,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|I|255-0-0
+1,28,27,6,0,0,0,0,0,64,0,-1--1--1,,1|(3133,2301)|
+1,29,1,11,1,0,0,0,0,64,0,-1--1--1,,1|(3395,2371)|
+10,30,death rate,3517,2564,46,10,8,3,0,2,-1,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,31,30,11,0,0,0,0,0,64,0,-1--1--1,,1|(3464,2503)|
+10,32,Total Working age population,3240,2231,43,20,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,33,1,32,0,0,0,0,0,64,0,-1--1--1,,1|(3287,2278)|
+10,34,Average life expectancy,3734,2557,39,19,8,3,0,0,0,0,0,0
+1,35,11,34,0,0,0,0,0,128,0,-1--1--1,,1|(3553,2489)|
+1,36,1,34,0,0,0,0,0,128,0,-1--1--1,,1|(3547,2452)|
+10,37,Life expectancy per age group,3746,2423,63,19,8,3,0,0,0,0,0,0
+1,38,1,37,0,0,0,0,0,128,0,-1--1--1,,1|(3538,2379)|
+1,39,11,37,0,0,0,0,0,128,0,-1--1--1,,1|(3547,2428)|
+10,40,Stock per cohort,3428,2248,40,19,8,3,0,0,0,0,0,0
+1,41,1,40,0,0,0,0,0,64,0,-1--1--1,,1|(3393,2287)|
+12,42,48,3376,2528,10,8,0,3,0,0,-1,0,0,0
+12,43,48,3302,2490,10,8,0,3,0,0,-1,0,0,0
+1,44,46,43,4,0,0,22,0,0,0,-1--1--1,,1|(3299,2457)|
+1,45,46,1,100,0,0,22,0,0,0,-1--1--1,,1|(3299,2402)|
+11,46,48,3299,2427,8,6,33,3,0,0,4,0,0,0
+10,47,migration,3337,2427,30,11,40,3,0,0,-1,0,0,0
+1,48,18,1,0,0,0,0,0,128,1,-1--1--1,,1|(3274,2378)|
+10,49,Total Population,3261,2167,52,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,50,Available Labor Force,1476,2344,43,19,8,3,0,0,0,0,0,0
+10,51,labor force participation rate,1524,2458,52,25,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,52,51,50,1,0,0,0,0,128,0,-1--1--1,,1|(1509,2385)|
+10,53,Time,7029,2116,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,54,20,30,1,0,0,0,0,128,0,-1--1--1,,1|(3358,2559)|
+1,55,1,49,1,0,0,0,0,128,0,-1--1--1,,1|(3314,2247)|
+10,56,Total available Labor force,1346,2451,46,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,57,50,56,1,0,0,0,0,128,0,-1--1--1,,1|(1408,2382)|
+10,58,unemployment rate per age,1472,2151,71,19,8,3,0,0,0,0,0,0
+10,59,unemployment rate,1733,2236,46,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,60,youth unemployment rate,1774,2039,46,19,8,3,0,1,0,0,0,0,0-128-0,0-0-0,|12||0-0-0
+10,61,relative change working population per group,2201,2279,75,19,8,3,0,0,0,0,0,0
+10,62,Workforce,1960,2422,40,20,3,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+12,63,48,2160,2419,10,8,0,3,0,0,-1,0,0,0
+1,64,66,63,4,0,0,22,0,0,0,-1--1--1,,1|(2115,2419)|
+1,65,66,62,100,0,0,22,0,0,0,-1--1--1,,1|(2034,2419)|
+11,66,48,2075,2419,6,8,34,3,0,0,1,0,0,0
+10,67,Firing,2075,2438,19,11,40,3,0,0,-1,0,0,0
+12,68,48,1731,2421,10,8,0,3,0,0,-1,0,0,0
+1,69,71,62,4,0,0,22,0,0,0,-1--1--1,,1|(1878,2421)|
+1,70,71,68,100,0,0,22,0,0,0,-1--1--1,,1|(1783,2421)|
+11,71,48,1831,2421,6,8,34,3,0,0,1,0,0,0
+10,72,Hiring,1831,2440,20,11,40,3,0,0,-1,0,0,0
+10,73,average hiring time for new workforce,1757,2539,70,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,74,average firing time workforce,2305,2548,58,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,75,Relative difference between potential and actual workforce,2024,2688,87,28,8,3,0,0,0,0,0,0
+10,76,Deaths,2120,2177,32,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,77,Population,2227,2179,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,78,migration,2398,2273,39,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,79,Ageing,2345,2177,32,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,80,76,61,1,0,0,0,0,128,0,-1--1--1,,1|(2101,2237)|
+1,81,77,61,1,0,0,0,0,128,0,-1--1--1,,1|(2224,2206)|
+1,82,79,61,1,0,0,0,0,128,0,-1--1--1,,1|(2297,2214)|
+1,83,73,72,1,0,0,0,0,128,0,-1--1--1,,1|(1817,2515)|
+1,84,62,72,1,0,0,0,0,128,0,-1--1--1,,1|(1931,2451)|
+1,85,75,72,1,0,0,0,0,128,0,-1--1--1,,1|(1917,2563)|
+1,86,50,72,1,0,0,0,0,128,0,-1--1--1,,1|(1646,2427)|
+1,87,74,67,1,0,0,0,0,128,0,-1--1--1,,1|(2180,2448)|
+1,88,75,67,1,0,0,0,0,128,0,-1--1--1,,1|(2049,2561)|
+1,89,62,67,1,0,0,0,0,128,0,-1--1--1,,1|(1996,2440)|
+10,90,Total Workforce,2111,2356,58,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,91,62,90,1,0,0,0,0,128,0,-1--1--1,,1|(2074,2389)|
+10,92,initial Workforce,1332,2131,53,11,8,3,0,0,0,0,0,0
+10,93,Average age per age group,1449,2002,58,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,94,Employment per age,1243,2011,65,19,8,3,0,0,0,0,0,0
+1,95,93,94,1,0,0,0,0,128,0,-1--1--1,,1|(1401,2015)|
+1,96,94,92,1,0,0,0,0,128,0,-1--1--1,,1|(1330,2113)|
+1,97,62,75,0,0,0,0,0,128,0,-1--1--1,,1|(1988,2544)|
+10,98,Total Demand for labor,1685,2713,57,19,8,3,0,0,0,0,0,0
+1,99,98,75,1,0,0,0,0,128,0,-1--1--1,,1|(1760,2728)|
+10,100,initial nominal GDP,267,2033,60,11,8,3,0,0,0,0,0,0
+10,101,initial real GDP,376,2099,48,11,8,3,0,0,0,0,0,0
+10,102,labour productivity,538,2672,40,20,3,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+12,103,48,309,2670,10,8,0,3,0,0,-1,0,0,0
+1,104,106,102,4,0,0,22,0,0,0,-1--1--1,,1|(456,2670)|
+1,105,106,103,100,0,0,22,0,0,0,-1--1--1,,1|(360,2670)|
+11,106,48,408,2670,6,8,34,3,0,0,1,0,0,0
+10,107,labour productivity growth,408,2697,60,19,40,3,0,0,-1,0,0,0
+10,108,inflation rate,-84,2334,59,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,109,GDP deflator,232,2406,40,20,3,3,0,0,0,0,0,0
+12,110,48,-45,2403,10,8,0,3,0,0,-1,0,0,0
+1,111,113,109,4,0,0,22,0,0,0,-1--1--1,,1|(128,2403)|
+1,112,113,110,100,0,0,22,0,0,0,-1--1--1,,1|(8,2403)|
+11,113,48,58,2403,6,8,34,3,0,0,1,0,0,0
+10,114,inflation,58,2422,25,11,40,3,0,0,-1,0,0,0
+10,115,initial GDP deflator,300,2166,60,11,8,3,0,0,0,0,0,0
+10,116,productivity growth factor,224,2587,43,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,117,100,101,1,0,0,0,0,128,0,-1--1--1,,1|(331,2051)|
+1,118,115,101,1,0,0,0,0,128,0,-1--1--1,,1|(342,2145)|
+1,119,109,114,1,0,0,0,0,128,0,-1--1--1,,1|(111,2375)|
+1,120,115,109,1,0,0,0,0,128,1,-1--1--1,,1|(133,2397)|
+1,121,108,114,1,0,0,0,0,128,0,-1--1--1,,1|(-15,2349)|
+1,122,116,107,1,0,0,0,0,128,0,-1--1--1,,1|(371,2635)|
+1,123,102,107,1,0,0,0,0,128,0,-1--1--1,,1|(467,2639)|
+10,124,Time,9,2695,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,125,Time,181,2657,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,126,50,60,1,0,0,0,0,128,0,-1--1--1,,1|(1607,2238)|
+1,127,62,60,1,0,0,0,0,128,0,-1--1--1,,1|(1828,2112)|
+1,128,62,58,1,0,0,0,0,128,0,-1--1--1,,1|(1749,2163)|
+1,129,62,59,0,0,0,0,0,128,0,-1--1--1,,1|(1851,2332)|
+1,130,50,59,0,0,0,0,0,128,0,-1--1--1,,1|(1596,2293)|
+1,131,50,58,0,0,0,0,0,128,0,-1--1--1,,1|(1474,2254)|
+10,132,initial labour productivity,532,2223,39,19,8,3,0,0,0,0,0,0
+1,133,101,132,1,0,0,0,0,128,0,-1--1--1,,1|(452,2127)|
+1,134,132,102,1,0,0,0,0,128,1,-1--1--1,,1|(1205,2596)|
+10,135,Population,1324,2333,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,136,135,50,0,0,0,0,0,128,0,-1--1--1,,1|(1393,2337)|
+12,137,0,3581,1602,244,202,3,188,0,0,1,0,0,0
+Total_Population
+12,138,0,2905,1596,228,203,3,188,0,0,1,0,0,0
+Total_Working_Age_Popula
+12,139,0,1451,1603,197,189,3,188,0,0,1,0,0,0
+Available_labour_force
+12,140,0,1001,1601,223,190,3,188,0,0,1,0,0,0
+Workforce
+12,141,0,1888,1602,208,185,3,188,0,0,1,0,0,0
+Unemployment_rate
+12,142,0,2344,1602,207,190,3,188,0,0,1,0,0,0
+Youth_unemployment
+1,143,135,92,1,0,0,0,0,128,0,-1--1--1,,1|(1360,2227)|
+10,144,initial average wage level,681,2581,43,19,8,3,0,0,0,0,0,0
+10,145,average real wage level,580,2530,40,20,3,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,146,144,145,1,0,0,0,0,128,1,-1--1--1,,1|(650,2555)|
+12,147,48,341,2522,10,8,0,3,0,0,-1,0,0,0
+1,148,150,145,4,0,0,22,0,0,0,-1--1--1,,1|(495,2522)|
+1,149,150,147,100,0,0,22,0,0,0,-1--1--1,,1|(395,2522)|
+11,150,48,445,2522,6,8,34,3,0,0,1,0,0,0
+10,151,wage level growth,445,2541,57,11,40,3,0,0,-1,0,0,0
+1,152,145,151,1,0,0,0,0,128,0,-1--1--1,,1|(534,2489)|
+1,153,116,151,0,0,0,0,0,128,0,-1--1--1,,1|(322,2566)|
+10,154,average nominal wage,519,2380,67,21,8,131,0,0,0,0,0,0
+1,155,145,154,1,0,0,0,0,128,0,-1--1--1,,1|(562,2452)|
+1,156,109,154,0,0,0,0,0,128,0,-1--1--1,,1|(355,2395)|
+10,157,private real savings,3429,483,40,20,3,3,0,0,0,0,0,0
+12,158,48,3070,487,10,8,0,3,0,0,-1,0,0,0
+1,159,161,157,4,0,0,22,0,0,0,-1--1--1,,1|(3303,487)|
+1,160,161,158,100,0,0,22,0,0,0,-1--1--1,,1|(3143,487)|
+11,161,48,3212,487,6,8,34,3,0,0,1,0,0,0
+10,162,savings rate,3212,506,37,11,40,3,0,0,-1,0,0,0
+10,163,propensity to save,3171,549,57,11,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,164,Time,3208,618,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,165,163,162,1,0,0,0,0,128,0,-1--1--1,,1|(3183,536)|
+10,166,private consumption,3451,339,41,19,8,3,0,0,0,0,0,0
+12,167,0,3795,-489,269,182,3,188,0,0,1,0,0,0
+Private_savings
+10,168,Time,3739,676,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,169,initial gross savings,3534,550,59,11,8,3,0,0,-1,0,0,0
+1,170,169,157,0,0,0,0,0,64,1,-1--1--1,,1|(3494,524)|
+10,171,real disposable income,3639,197,51,25,3,131,0,0,0,0,0,0
+12,172,48,3418,201,10,8,0,3,0,0,-1,0,0,0
+1,173,175,171,4,0,0,22,0,0,0,-1--1--1,,1|(3551,201)|
+1,174,175,172,100,0,0,22,0,0,0,-1--1--1,,1|(3465,201)|
+11,175,48,3508,201,6,8,34,3,0,0,1,0,0,0
+10,176,total real income,3508,220,52,11,40,3,0,0,-1,0,0,0
+12,177,48,3868,190,10,8,0,3,0,0,-1,0,0,0
+1,178,180,177,4,0,0,22,0,0,0,-1--1--1,,1|(3808,192)|
+1,179,180,171,100,0,0,22,0,0,0,-1--1--1,,1|(3718,192)|
+11,180,48,3753,192,6,8,34,3,0,0,1,0,0,0
+10,181,taxes paid by households,3753,219,43,19,40,3,0,0,-1,0,0,0
+10,182,initial real disposable income,3671,131,59,19,8,3,0,0,0,0,0,0
+10,183,Compensation of employees,3229,40,55,19,8,3,0,0,0,0,0,0
+1,184,183,176,1,0,0,0,0,128,0,-1--1--1,,1|(3418,172)|
+10,185,net property income households,3534,34,64,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,186,185,176,1,0,0,0,0,128,0,-1--1--1,,1|(3523,153)|
+10,187,Gross capital formation companies,2094,665,93,73,3,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+12,188,48,1814,632,10,8,0,3,0,0,-1,0,0,0
+1,189,191,187,4,0,0,22,0,0,0,-1--1--1,,1|(1957,627)|
+1,190,191,188,100,0,0,22,0,0,0,-1--1--1,,1|(1863,627)|
+11,191,48,1908,627,6,8,34,3,0,0,1,0,0,0
+10,192,Companies capital investments,1908,653,59,19,40,131,0,0,-1,0,0,0
+12,193,48,2388,662,10,8,0,3,0,0,-1,0,0,0
+1,194,196,193,4,0,0,22,0,0,0,-1--1--1,,1|(2333,662)|
+1,195,196,187,100,0,0,22,0,0,0,-1--1--1,,1|(2231,662)|
+11,196,48,2282,662,6,8,34,3,0,0,1,0,0,0
+10,197,Consumption of fixed capital,2282,697,51,19,40,131,0,0,-1,0,0,0
+10,198,depreciation rate,2360,814,53,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,199,198,197,1,0,0,0,0,128,0,-1--1--1,,1|(2309,756)|
+1,200,187,197,1,0,0,0,0,128,0,-1--1--1,,1|(2218,617)|
+10,201,Compensation of private employees,554,319,58,19,8,131,0,0,0,0,0,0
+10,202,Corporate profit tax,918,360,53,19,8,3,0,0,0,0,0,0
+10,203,corporate profit tax rate,808,379,43,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,204,other capital expenditure,327,169,40,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,205,Total Companies Expenditures,758,470,55,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,206,202,205,1,0,0,0,0,128,0,-1--1--1,,1|(842,464)|
+1,207,203,202,1,0,0,0,0,128,0,-1--1--1,,1|(851,340)|
+1,208,204,205,1,0,0,0,0,128,0,-1--1--1,,1|(372,369)|
+10,209,Total Revenue Companies,1559,515,46,19,8,3,0,0,0,0,0,0
+10,210,Gross value added,1605,370,59,11,8,3,0,0,0,0,0,0
+1,211,210,209,1,0,0,0,0,128,0,-1--1--1,,1|(1599,452)|
+10,212,other taxes on production,694,316,45,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,213,212,205,1,0,0,0,0,128,0,-1--1--1,,1|(729,425)|
+10,214,other subsidies on production,1809,370,57,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,215,net property income companies,1472,357,64,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,216,net current transfers received,1351,478,63,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,217,215,209,1,0,0,0,0,128,0,-1--1--1,,1|(1483,404)|
+1,218,214,209,1,0,0,0,0,128,0,-1--1--1,,1|(1787,527)|
+1,219,216,209,1,0,0,0,0,128,0,-1--1--1,,1|(1437,504)|
+10,220,gross operating surplus,1213,202,49,19,8,3,0,0,0,0,0,0
+1,221,210,220,1,0,0,0,0,128,0,-1--1--1,,1|(1423,236)|
+1,222,201,220,1,0,0,0,0,128,0,-1--1--1,,1|(769,230)|
+1,223,212,220,0,0,0,0,0,128,0,-1--1--1,,1|(944,261)|
+1,224,214,220,1,0,0,0,0,128,0,-1--1--1,,1|(1524,91)|
+10,225,balance of gross primary income,1356,270,52,19,8,3,0,0,0,0,0,0
+1,226,220,225,1,0,0,0,0,128,0,-1--1--1,,1|(1300,248)|
+1,227,215,225,1,0,0,0,0,128,0,-1--1--1,,1|(1381,286)|
+10,228,balance of net primary income,1327,353,49,19,8,3,0,0,0,0,0,0
+1,229,225,228,1,0,0,0,0,128,0,-1--1--1,,1|(1340,313)|
+10,230,gross saving,1093,296,39,11,8,3,0,0,0,0,0,0
+1,231,225,230,1,0,0,0,0,128,0,-1--1--1,,1|(1215,279)|
+1,232,202,230,1,0,0,0,0,128,0,-1--1--1,,1|(997,318)|
+1,233,216,230,1,0,0,0,0,128,0,-1--1--1,,1|(1080,426)|
+10,234,net disposable income,1157,350,46,19,8,3,0,0,0,0,0,0
+1,235,230,234,0,0,0,0,0,128,0,-1--1--1,,1|(1114,314)|
+10,236,net lending,1191,98,34,11,8,3,0,0,0,0,0,0
+1,237,204,236,0,0,0,0,0,128,0,-1--1--1,,1|(755,133)|
+10,238,Consumption of fixed capital,1239,429,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,239,238,228,0,0,0,0,0,128,0,-1--1--1,,1|(1277,395)|
+1,240,238,234,0,0,0,0,0,128,0,-1--1--1,,1|(1203,394)|
+10,241,investments as percentage of profit,1788,729,62,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,242,241,192,1,0,0,0,0,128,0,-1--1--1,,1|(1888,696)|
+10,243,initial capital formation companies,2069,507,66,19,8,3,0,0,0,0,0,0
+10,244,cumulative net profit,1061,592,40,20,3,3,0,0,0,0,0,0
+1,245,201,205,0,0,0,0,0,128,0,-1--1--1,,1|(649,390)|
+10,246,gross saving,1073,31,48,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,247,246,236,0,0,0,0,0,128,0,-1--1--1,,1|(1125,61)|
+10,248,profit share,1181,738,36,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,249,209,248,1,0,0,0,0,128,0,-1--1--1,,1|(1287,698)|
+10,250,profit rate,842,759,32,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,251,capacity utilization,1202,833,57,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,252,"capital-output ratio",1347,893,59,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,253,Time,1938,743,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,254,0,108,-504,275,175,3,188,0,0,1,0,0,0
+Gross_Capital_formation_
+12,255,0,665,-502,262,183,3,188,0,0,1,0,0,0
+Net_profit_companies
+12,256,0,1303,-498,263,187,3,188,0,0,1,0,0,0
+profite_rate_companies
+12,257,0,1849,-494,255,185,3,188,0,0,1,0,0,0
+Profit_share_companies
+10,258,Public debt,5251,555,102,95,3,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+12,259,48,4903,549,10,8,0,3,0,0,-1,0,0,0
+1,260,262,258,4,0,0,22,0,0,0,-1--1--1,,1|(5092,547)|
+1,261,262,259,100,0,0,22,0,0,0,-1--1--1,,1|(4968,547)|
+11,262,48,5029,547,6,8,34,3,0,0,1,0,0,0
+10,263,Total government revenue,5029,575,57,20,40,131,0,2,-1,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,264,Revenue from corporate tax,4750,340,45,19,8,3,0,0,0,0,0,0
+10,265,Revenue from value added tax,4750,457,63,19,8,3,0,0,0,0,0,0
+10,266,value added tax rate,4574,352,50,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,267,Revenue from Property tax,4750,168,45,19,8,3,0,0,0,0,0,0
+10,268,property tax as percentage of the GDP,4534,124,73,19,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,269,268,267,1,0,0,0,0,128,0,-1--1--1,,1|(4644,112)|
+1,270,266,265,0,0,0,0,0,128,0,-1--1--1,,1|(4655,400)|
+10,271,tax rate on personal income,4692,651,52,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,272,Revenue from personal income tax,4731,530,64,19,8,3,0,0,0,0,0,0
+1,273,271,272,1,0,0,0,0,128,0,-1--1--1,,1|(4723,585)|
+1,274,264,263,1,0,0,0,0,128,0,-1--1--1,,1|(4920,336)|
+1,275,267,263,1,0,0,0,0,128,0,-1--1--1,,1|(5055,420)|
+1,276,272,263,1,0,0,0,0,128,0,-1--1--1,,1|(4898,499)|
+10,277,compensation of public employees,5810,373,55,19,8,131,0,0,0,0,0,0
+10,278,Social Benefits,5783,429,47,11,8,3,0,0,0,0,0,0
+10,279,Goods and services,5770,504,36,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,280,Subsidies,5775,578,31,11,8,3,0,0,0,0,0,0
+10,281,Capital transfers paid,5768,698,52,19,8,131,0,0,0,0,0,0
+10,282,interest payments,5757,745,54,11,8,3,0,0,0,0,0,0
+10,283,interest rate as percentage of GDP,5913,765,66,27,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,284,283,282,1,0,0,0,0,128,0,-1--1--1,,1|(5812,750)|
+12,285,48,5578,555,10,8,0,3,0,0,-1,0,0,0
+1,286,288,285,4,0,0,22,0,0,0,-1--1--1,,1|(5517,555)|
+1,287,288,258,100,0,0,22,0,0,0,-1--1--1,,1|(5403,555)|
+11,288,48,5460,555,6,8,34,3,0,0,1,0,0,0
+10,289,Total Expenditures including interest payments,5460,591,60,28,40,131,0,2,-1,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,290,278,289,1,0,0,0,0,128,0,-1--1--1,,1|(5608,451)|
+1,291,279,289,1,0,0,0,0,128,0,-1--1--1,,1|(5648,500)|
+1,292,280,289,1,0,0,0,0,128,0,-1--1--1,,1|(5561,610)|
+1,293,281,289,1,0,0,0,0,128,0,-1--1--1,,1|(5616,658)|
+10,294,initial government debt,5254,719,55,19,8,3,0,0,0,0,0,0
+1,295,294,258,1,0,0,0,0,128,1,-1--1--1,,1|(5285,672)|
+10,296,Public Budget Balance including interest payments,5291,351,86,19,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,297,263,296,1,0,0,0,0,128,0,-1--1--1,,1|(5162,426)|
+1,298,289,296,1,0,0,0,0,128,0,-1--1--1,,1|(5358,404)|
+10,299,public debt as percentage of GDP,5149,40,62,19,8,3,0,0,0,0,0,0
+10,300,Public debt,5130,120,45,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,301,300,299,1,0,0,0,0,128,0,-1--1--1,,1|(5144,83)|
+10,302,Public budget balance as percentage of GDP,5210,259,79,19,8,3,0,0,0,0,0,0
+1,303,296,302,1,0,0,0,0,128,0,-1--1--1,,1|(5247,317)|
+1,304,277,288,1,0,0,0,0,128,0,-1--1--1,,1|(5489,474)|
+10,305,social benefits as percentage of GDP,6131,412,62,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,306,subsidies as percentage of GDP,6129,571,62,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,307,capital transfers as percentage of GDP,6115,676,62,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,308,307,281,0,0,0,0,0,128,0,-1--1--1,,1|(5943,686)|
+1,309,306,280,0,0,0,0,0,128,0,-1--1--1,,1|(5943,574)|
+1,310,305,278,0,0,0,0,0,128,0,-1--1--1,,1|(5956,420)|
+1,311,265,263,1,0,0,0,0,128,0,-1--1--1,,1|(4953,489)|
+12,312,0,6221,-488,233,187,3,188,0,0,1,0,0,0
+Public_Debt
+12,313,0,4639,-488,268,189,3,188,0,0,1,0,0,0
+total_income_government
+10,314,Revenue from Social contribution,4748,36,66,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,315,314,263,1,0,0,0,0,128,0,-1--1--1,,1|(5001,160)|
+1,316,265,181,1,0,0,0,0,128,0,-1--1--1,,1|(4248,337)|
+1,317,267,181,0,0,0,0,0,128,0,-1--1--1,,1|(4257,192)|
+1,318,314,181,1,0,0,0,0,128,0,-1--1--1,,1|(4234,-29)|
+1,319,166,265,1,0,0,0,0,128,0,-1--1--1,,1|(4075,569)|
+12,320,0,5181,-486,230,186,3,188,0,0,1,0,0,0
+Total_Public_expenditure
+12,321,0,5690,-485,223,187,3,188,0,0,1,0,0,0
+Public_Budget_balance
+10,322,Social Benefits,3397,47,56,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,323,322,176,1,0,0,0,0,128,0,-1--1--1,,1|(3459,117)|
+1,324,272,181,1,0,0,0,0,128,0,-1--1--1,,1|(4240,373)|
+1,325,326,244,100,0,0,22,0,0,0,-1--1--1,,1|(1059,627)|
+11,326,2316,1059,649,8,6,33,3,0,0,4,0,0,0
+10,327,profit,1085,649,18,11,40,3,0,2,-1,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,328,327,202,1,0,0,0,0,128,0,-1--1--1,,1|(948,568)|
+1,329,327,248,1,0,0,0,0,128,0,-1--1--1,,1|(1128,702)|
+1,330,244,327,0,0,0,0,0,128,0,-1--1--1,,1|(1071,618)|
+1,331,327,192,0,0,0,0,0,128,0,-1--1--1,,1|(1469,650)|
+10,332,dividends to households as percentage of profits,1912,939,76,19,8,3,0,0,0,0,0,0
+10,333,dividends to households,1683,890,39,19,8,3,0,0,0,0,0,0
+1,334,327,333,0,0,0,0,0,128,0,-1--1--1,,1|(1367,762)|
+1,335,332,333,0,0,0,0,0,128,0,-1--1--1,,1|(1785,911)|
+10,336,shareholders shares as percentage of profits,1874,817,71,19,8,3,0,0,0,0,0,0
+1,337,241,336,0,0,0,0,0,128,0,-1--1--1,,1|(1825,768)|
+1,338,332,336,0,0,0,0,0,128,0,-1--1--1,,1|(1895,884)|
+10,339,shareholders shares,1696,793,41,19,8,3,0,0,0,0,0,0
+1,340,336,339,0,0,0,0,0,128,0,-1--1--1,,1|(1776,804)|
+1,341,327,339,0,0,0,0,0,128,0,-1--1--1,,1|(1372,716)|
+1,342,250,251,0,0,0,0,0,128,0,-1--1--1,,1|(1004,792)|
+1,343,252,251,0,0,0,0,0,128,0,-1--1--1,,1|(1280,865)|
+1,344,248,251,0,0,0,0,0,128,0,-1--1--1,,1|(1189,778)|
+10,345,dividends to households,3249,-33,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,346,345,183,0,0,0,0,0,128,0,-1--1--1,,1|(3240,-3)|
+10,347,gross capital formation government,5909,170,74,40,3,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+12,348,48,6166,171,10,8,0,3,0,0,-1,0,0,0
+1,349,351,348,4,0,0,22,0,0,0,-1--1--1,,1|(6115,171)|
+1,350,351,347,100,0,0,22,0,0,0,-1--1--1,,1|(6023,171)|
+11,351,48,6069,171,6,8,34,3,0,0,1,0,0,0
+10,352,consumption of government gross capital formation,6069,207,79,28,40,3,0,0,-1,0,0,0
+10,353,depreciation rate,6160,290,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,354,48,5653,166,10,8,0,3,0,0,-1,0,0,0
+1,355,357,347,4,0,0,22,0,0,0,-1--1--1,,1|(5795,166)|
+1,356,357,354,100,0,0,22,0,0,0,-1--1--1,,1|(5703,166)|
+11,357,48,5749,166,6,8,34,3,0,0,1,0,0,0
+10,358,Public investments,5749,185,57,11,40,3,0,0,-1,0,0,0
+10,359,public investments as a ratio of public budget balance,5736,95,72,28,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,360,359,358,0,0,0,0,0,128,0,-1--1--1,,1|(5742,141)|
+1,361,296,358,1,0,0,0,0,128,0,-1--1--1,,1|(5527,295)|
+1,362,347,352,1,0,0,0,0,128,0,-1--1--1,,1|(6010,130)|
+1,363,353,352,0,0,0,0,0,128,0,-1--1--1,,1|(6124,257)|
+10,364,Total gross capital formation,3815,690,58,19,8,3,0,0,0,0,0,0
+10,365,gross capital formation households,3603,789,68,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,366,Gross capital formation companies,3796,795,71,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,367,gross capital formation government,4044,806,74,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,368,365,364,0,0,0,0,0,128,0,-1--1--1,,1|(3702,742)|
+1,369,366,364,0,0,0,0,0,128,0,-1--1--1,,1|(3803,749)|
+1,370,367,364,0,0,0,0,0,128,0,-1--1--1,,1|(3935,751)|
+10,371,total expenditures excluding interest payments,5568,794,56,28,8,3,0,0,0,0,0,0
+1,372,289,371,0,0,0,0,0,128,0,-1--1--1,,1|(5510,686)|
+12,373,0,2383,-495,253,184,3,188,0,0,1,0,0,0
+Capacity_utilization
+10,374,initial nominal GDP EU,4550,2188,43,19,8,3,0,0,0,0,0,0
+10,375,initial real GDP EU,4695,2290,60,11,8,3,0,0,0,0,0,0
+10,376,GDP deflator EU,4868,2207,55,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,377,376,375,1,0,0,0,0,128,0,-1--1--1,,1|(4772,2242)|
+10,378,export coefficient,5234,2638,54,11,8,3,0,0,0,0,0,0
+10,379,initial real exports,5258,2761,55,11,8,3,0,0,0,0,0,0
+10,380,initial real imports,5896,2751,55,11,8,3,0,0,0,0,0,0
+10,381,import coefficient,6125,2687,54,11,8,3,0,0,0,0,0,0
+10,382,export income elasticity,5248,2483,53,21,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,383,import income elasticity,6103,2489,56,22,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,384,price export elasticity,5565,2549,39,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,385,price import elasticity,6393,2557,39,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,386,380,381,1,0,0,0,0,128,0,-1--1--1,,1|(6078,2770)|
+1,387,383,381,1,0,0,0,0,128,0,-1--1--1,,1|(6135,2530)|
+1,388,385,381,1,0,0,0,0,128,0,-1--1--1,,1|(6250,2587)|
+1,389,379,378,1,0,0,0,0,128,0,-1--1--1,,1|(5235,2687)|
+10,390,initial real GDP EU,4522,2628,53,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,391,390,378,1,0,0,0,0,128,0,-1--1--1,,1|(5058,2689)|
+1,392,382,378,1,0,0,0,0,128,0,-1--1--1,,1|(5247,2491)|
+1,393,384,378,1,0,0,0,0,128,0,-1--1--1,,1|(5457,2589)|
+10,394,real GDP EU,4745,2439,40,20,3,3,0,0,0,0,0,0
+12,395,48,4576,2444,10,8,0,3,0,0,-1,0,0,0
+1,396,398,394,4,0,0,22,0,0,0,-1--1--1,,1|(4678,2444)|
+1,397,398,395,100,0,0,22,0,0,0,-1--1--1,,1|(4612,2444)|
+11,398,48,4645,2444,6,8,34,3,0,0,1,0,0,0
+10,399,EU GDP growth rate,4645,2471,54,19,40,3,0,0,-1,0,0,0
+10,400,growth rate EU,4529,2395,49,11,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,401,400,399,1,0,0,0,0,128,0,-1--1--1,,1|(4570,2402)|
+1,402,394,399,1,0,0,0,0,128,0,-1--1--1,,1|(4669,2421)|
+12,403,0,5195,1579,303,209,3,188,0,0,1,0,0,0
+Exports
+12,404,0,5808,1573,284,197,3,188,0,0,1,0,0,0
+Imports
+12,405,0,4570,1578,284,200,3,188,0,0,1,0,0,0
+Net_Trade_Balance
+10,406,price deflator exports of goods and services EU,5036,2435,77,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,407,price deflator of exports goods and services Greece,5383,2426,86,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,408,Exports,5230,2126,26,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,409,Imports,6048,2159,26,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,410,exchange rate,5730,2659,44,11,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,411,price deflator imports goods and services EU,6268,2443,73,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,412,price deflator of imports goods and services Greece,5827,2443,86,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,413,378,408,1,0,0,0,0,128,0,-1--1--1,,1|(5160,2429)|
+1,414,394,408,1,0,0,0,0,128,0,-1--1--1,,1|(5040,2216)|
+1,415,382,408,1,0,0,0,0,128,0,-1--1--1,,1|(5238,2306)|
+1,416,410,408,1,0,0,0,0,128,0,-1--1--1,,1|(5610,2444)|
+1,417,384,408,1,0,0,0,0,128,0,-1--1--1,,1|(5364,2258)|
+1,418,407,408,1,0,0,0,0,128,0,-1--1--1,,1|(5307,2278)|
+1,419,406,408,1,0,0,0,0,128,0,-1--1--1,,1|(5084,2328)|
+1,420,410,378,1,0,0,0,0,128,0,-1--1--1,,1|(5355,2660)|
+1,421,412,409,1,0,0,0,0,128,0,-1--1--1,,1|(5849,2390)|
+1,422,411,409,1,0,0,0,0,128,0,-1--1--1,,1|(6188,2292)|
+1,423,381,409,1,0,0,0,0,128,0,-1--1--1,,1|(6024,2436)|
+1,424,385,409,1,0,0,0,0,128,0,-1--1--1,,1|(6343,2422)|
+1,425,383,409,1,0,0,0,0,128,0,-1--1--1,,1|(6122,2307)|
+1,426,410,409,1,0,0,0,0,128,0,-1--1--1,,1|(5876,2222)|
+1,427,406,378,0,0,0,0,0,128,0,-1--1--1,,1|(5133,2535)|
+1,428,407,378,0,0,0,0,0,128,0,-1--1--1,,1|(5309,2530)|
+1,429,411,381,0,0,0,0,0,128,0,-1--1--1,,1|(6197,2562)|
+1,430,412,381,0,0,0,0,0,128,0,-1--1--1,,1|(5975,2564)|
+1,431,410,381,0,0,0,0,0,64,0,-1--1--1,,1|(5915,2672)|
+10,432,initial real GDP Greece,6289,2748,48,19,8,3,0,0,-1,0,0,0
+1,433,432,381,0,0,0,0,0,64,0,-1--1--1,,1|(6204,2716)|
+10,434,gross capital formation government,1687,264,74,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,435,Compensation of private employees,3027,-35,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,436,compensation of public employees,3005,72,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,437,436,183,0,0,0,0,0,128,0,-1--1--1,,1|(3112,56)|
+1,438,435,183,0,0,0,0,0,128,0,-1--1--1,,1|(3120,0)|
+10,439,Corporate profit tax,4544,266,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,440,439,264,1,0,0,0,0,128,0,-1--1--1,,1|(4635,279)|
+12,441,0,5495,1900,295,80,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-64-0
+Import-Exports
+12,442,0,5322,-190,224,45,8,7,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-64-0
+Public Sector
+12,443,0,3614,-203,346,62,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-64-0
+Households
+12,444,0,3266,-489,235,184,3,188,0,0,1,0,0,0
+Real_disposable_income
+12,445,0,1093,-183,339,70,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-64-0
+Companies
+12,446,0,3318,1912,232,64,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-128-0
+Population
+12,447,0,1754,1882,235,86,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-128-0
+Employment
+12,448,0,244,1889,283,68,8,135,0,10,-1,0,0,0,-1--1--1,0-0-0,|60||0-128-0
+Wages
+12,449,0,-74,1606,210,185,3,188,0,0,1,0,0,0
+Average_nominal_wage
+12,450,0,397,1606,206,186,3,156,0,0,1,0,0,0
+Labour_productivity
+10,451,average real wage level,5962,315,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,452,451,277,0,0,0,0,0,128,0,-1--1--1,,1|(5892,341)|
+10,453,percentage public employees,2518,2377,56,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+10,454,nmr public employees,2358,2387,34,19,8,3,0,0,0,0,0,0
+1,455,453,454,0,0,0,0,0,128,0,-1--1--1,,1|(2433,2381)|
+1,456,90,454,0,0,0,0,0,128,0,-1--1--1,,1|(2239,2371)|
+10,457,nmr private employees,2344,2475,36,19,8,3,0,0,0,0,0,0
+1,458,90,457,0,0,0,0,0,128,0,-1--1--1,,1|(2213,2408)|
+10,459,percentage private employees,2544,2493,59,19,8,3,0,0,0,0,0,0
+1,460,453,459,0,0,0,0,0,128,0,-1--1--1,,1|(2529,2428)|
+1,461,459,457,0,0,0,0,0,128,0,-1--1--1,,1|(2439,2483)|
+10,462,nmr public employees,5740,287,39,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,463,462,277,0,0,0,0,0,128,0,-1--1--1,,1|(5770,324)|
+10,464,average real wage level,479,202,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,465,464,201,1,0,0,0,0,128,0,-1--1--1,,1|(484,252)|
+10,466,nmr private employees,628,214,41,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,467,466,201,0,0,0,0,0,128,0,-1--1--1,,1|(595,260)|
+10,468,GDP deflator,3752,51,58,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,469,468,176,1,0,0,0,0,128,0,-1--1--1,,1|(3580,121)|
+10,470,GDP deflator,2288,1107,52,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,471,GDP deflator,6418,1987,52,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,472,GDP deflator,5222,787,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,473,472,263,0,0,0,0,0,128,0,-1--1--1,,1|(5134,690)|
+1,474,472,289,1,0,0,0,0,128,0,-1--1--1,,1|(5368,723)|
+10,475,real GDP,3433,1123,37,11,8,3,0,0,0,0,0,0
+10,476,GDP deflator,3576,963,52,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,477,private consumption,2872,891,45,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,478,Imports,2842,945,35,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,479,Exports,2978,935,35,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,480,compensation of public employees,2822,688,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,481,Goods and services,2999,674,41,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,482,Public expenditure,2952,792,58,11,8,3,0,0,0,0,0,0
+1,483,480,482,0,0,0,0,0,128,0,-1--1--1,,1|(2886,739)|
+1,484,481,482,0,0,0,0,0,128,0,-1--1--1,,1|(2976,730)|
+10,485,real GDP,6578,1997,46,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,486,real GDP,1724,2803,46,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,487,initial net balance,5588,2783,53,11,8,3,0,0,0,0,0,0
+1,488,379,487,0,0,0,0,0,128,0,-1--1--1,,1|(5417,2771)|
+1,489,380,487,0,0,0,0,0,128,0,-1--1--1,,1|(5747,2765)|
+10,490,compensation of public employees,1681,434,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,491,490,210,1,0,0,0,0,128,0,-1--1--1,,1|(1628,394)|
+12,492,0,6767,-486,266,183,3,188,0,0,1,0,0,0
+Gross_capital_formation_Government
+1,493,282,371,0,0,0,0,0,128,0,-1--1--1,,1|(5676,765)|
+1,494,282,289,1,0,0,0,0,128,0,-1--1--1,,1|(5611,691)|
+1,495,243,187,0,0,0,0,0,64,1,-1--1--1,,1|(2075,552)|
+1,496,376,394,1,0,0,0,0,128,0,-1--1--1,,1|(4799,2329)|
+1,497,374,375,0,0,0,0,0,128,0,-1--1--1,,1|(4622,2238)|
+1,498,375,394,0,0,0,0,0,128,1,-1--1--1,,1|(4715,2353)|
+1,499,485,409,0,0,0,0,0,128,0,-1--1--1,,1|(6315,2077)|
+12,500,48,1959,2246,10,8,0,3,0,0,-1,0,0,0
+1,501,503,500,4,0,0,22,0,0,0,-1--1--1,,1|(1959,2288)|
+1,502,503,62,100,0,0,22,0,0,0,-1--1--1,,1|(1959,2368)|
+11,503,48,1959,2328,8,6,33,3,0,0,4,0,0,0
+10,504,Ageing of workforce,2007,2328,40,19,40,3,0,0,-1,0,0,0
+1,505,61,504,0,0,0,0,0,128,0,-1--1--1,,1|(2093,2305)|
+1,506,62,504,0,0,0,0,0,128,0,-1--1--1,,1|(1980,2380)|
+10,507,cumulative GDP,3170,993,63,41,3,131,0,0,0,0,0,0
+12,508,48,3147,1135,10,8,0,3,0,0,-1,0,0,0
+1,509,511,508,4,0,0,22,0,0,0,-1--1--1,,1|(3149,1103)|
+1,510,511,507,100,0,0,22,0,0,0,-1--1--1,,1|(3149,1051)|
+11,511,48,3149,1074,8,6,33,3,0,0,4,0,0,0
+10,512,nominal GDP,3200,1074,43,11,40,3,0,0,-1,0,0,0
+1,513,507,512,0,0,0,0,0,128,0,-1--1--1,,1|(3187,1041)|
+1,514,512,475,1,0,0,0,0,64,0,-1--1--1,,1|(3337,1187)|
+10,515,nominal GDP,5977,486,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,516,515,278,0,0,0,0,0,128,0,-1--1--1,,1|(5886,459)|
+1,517,515,280,0,0,0,0,0,128,0,-1--1--1,,1|(5882,529)|
+1,518,515,281,0,0,0,0,0,128,0,-1--1--1,,1|(5881,583)|
+1,519,515,282,1,0,0,0,0,128,0,-1--1--1,,1|(5905,647)|
+10,520,nominal GDP,5281,105,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,521,520,299,0,0,0,0,0,128,0,-1--1--1,,1|(5229,79)|
+1,522,520,302,0,0,0,0,0,128,0,-1--1--1,,1|(5249,171)|
+10,523,nominal GDP,4791,226,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,524,523,267,0,0,0,0,0,128,0,-1--1--1,,1|(4777,206)|
+10,525,nominal GDP,1601,304,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,526,525,210,0,0,0,0,0,128,0,-1--1--1,,1|(1602,330)|
+10,527,Ageing,2113,2618,32,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,528,Population,2231,2612,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,529,Gross capital formation companies,694,563,71,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,530,Total nmr retired,3085,2178,53,11,8,3,0,0,0,0,0,0
+1,531,1,530,0,0,0,0,0,128,0,-1--1--1,,1|(3201,2250)|
+10,532,Total nmr retired,6465,497,36,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,533,0,4161,1005,209,144,3,156,0,0,1,0,0,0
+Nominal_GDP
+10,534,"weighted factor productivity-wages",697,2637,61,19,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,535,534,151,0,0,0,0,0,128,0,-1--1--1,,1|(567,2587)|
+10,536,GDP deflator,998,469,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,537,GDP deflator,3356,1052,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,538,average real wage level,4507,571,56,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,539,nmr private employees,4532,644,41,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,540,nmr public employees,4412,638,39,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,541,Compensation of employees,4542,585,59,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,542,541,272,0,0,0,0,0,128,0,-1--1--1,,1|(4627,560)|
+10,543,public savings as a ratio of public budget balance,5406,58,65,28,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-0
+1,544,359,543,0,0,0,0,0,128,0,-1--1--1,,1|(5574,76)|
+10,545,Companies capital investments,3763,1066,64,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,546,Public investments,3639,1084,42,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,547,Public investments,1724,311,42,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,548,547,210,1,0,0,0,0,128,0,-1--1--1,,1|(1715,371)|
+10,549,Billions,555,2069,48,19,8,3,0,0,0,0,0,0
+1,550,549,132,0,0,0,0,0,128,0,-1--1--1,,1|(544,2139)|
+1,551,92,132,0,0,0,0,0,128,0,-1--1--1,,1|(931,2176)|
+10,552,Net Balance,5612,2173,40,11,8,3,0,0,0,0,0,0
+1,553,408,552,0,0,0,0,0,128,0,-1--1--1,,1|(5407,2147)|
+1,554,409,552,0,0,0,0,0,128,0,-1--1--1,,1|(5843,2164)|
+10,555,Net Balance,3405,876,49,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,556,182,171,0,0,0,0,0,64,1,-1--1--1,,1|(3659,154)|
+10,557,Companies capital investments,1290,27,64,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,558,557,236,0,0,0,0,0,128,0,-1--1--1,,1|(1240,62)|
+10,559,Companies capital investments,685,568,64,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,560,559,205,0,0,0,0,0,128,0,-1--1--1,,1|(716,524)|
+10,561,Billions,1564,2754,35,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,562,Year,1552,2626,17,11,8,3,0,0,0,0,0,0
+1,563,562,98,1,0,0,0,0,128,0,-1--1--1,,1|(1638,2671)|
+10,564,Billions,6361,596,33,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,565,Billions,432,337,35,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,566,565,201,0,0,0,0,0,128,0,-1--1--1,,1|(474,330)|
+10,567,Billions,5987,391,33,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,568,567,277,0,0,0,0,0,128,0,-1--1--1,,1|(5916,383)|
+10,569,Year,571,409,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,570,569,201,0,0,0,0,0,128,0,-1--1--1,,1|(564,374)|
+10,571,Year,6049,347,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,572,571,277,0,0,0,0,0,128,0,-1--1--1,,1|(5950,357)|
+10,573,Billions,5032,2612,33,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,574,unit Billion,5571,2737,33,11,8,3,0,0,0,0,0,0
+1,575,574,378,1,0,0,0,0,128,0,-1--1--1,,1|(5398,2707)|
+10,576,unit Billion,5621,2087,42,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,577,Year,5591,2028,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,578,577,408,0,0,0,0,0,128,0,-1--1--1,,1|(5417,2074)|
+1,579,576,408,0,0,0,0,0,128,0,-1--1--1,,1|(5424,2106)|
+1,580,574,381,1,0,0,0,0,128,0,-1--1--1,,1|(5997,2717)|
+10,581,Year,3438,2621,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,582,581,30,0,0,0,0,0,128,0,-1--1--1,,1|(3472,2596)|
+1,583,581,18,0,1,0,0,0,128,0,-1--1--1,,1|(3345,2518)|
+10,584,Year,1088,1981,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,585,584,94,0,0,0,0,0,128,0,-1--1--1,,1|(1139,1990)|
+10,586,Year,143,2491,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,587,Year,3286,595,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,588,576,409,0,0,0,0,0,128,0,-1--1--1,,1|(5835,2122)|
+1,589,577,409,1,0,0,0,0,128,0,-1--1--1,,1|(5902,2066)|
+1,590,486,98,0,0,0,0,0,128,0,-1--1--1,,1|(1709,2768)|
+10,591,Gross capital formation companies,2730,715,71,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,592,Total initial Workforce,1141,2271,36,19,8,3,0,0,0,0,0,0
+1,593,92,592,0,0,0,0,0,128,0,-1--1--1,,1|(1247,2192)|
+10,594,initial real GDP,1153,2780,57,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,595,561,98,1,0,0,0,0,128,0,-1--1--1,,1|(1615,2748)|
+10,596,gross capital formation government,2718,793,74,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,597,real GDP,3223,415,40,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,598,initial nominal GDP,3052,1115,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,599,initial gross capital formation government,5932,61,69,19,8,3,0,0,0,0,0,0
+1,600,599,347,0,0,0,0,0,128,1,-1--1--1,,1|(5924,98)|
+10,601,Time,3171,579,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,602,145,98,1,0,0,0,0,128,0,-1--1--1,,1|(1117,2618)|
+10,603,coefficient demand for labor,1306,2706,60,19,8,3,0,0,0,0,0,0
+10,604,initial demand for labor,1437,2790,55,19,8,3,0,0,0,0,0,0
+1,605,604,603,0,0,0,0,0,128,0,-1--1--1,,1|(1377,2751)|
+1,606,144,603,1,0,0,0,0,128,0,-1--1--1,,1|(978,2640)|
+1,607,594,603,0,0,0,0,0,128,0,-1--1--1,,1|(1214,2750)|
+1,608,603,98,0,0,0,0,0,128,0,-1--1--1,,1|(1490,2708)|
+1,609,597,162,0,0,0,0,0,128,0,-1--1--1,,1|(3218,453)|
+1,610,171,166,1,0,0,0,0,128,0,-1--1--1,,1|(3603,287)|
+1,611,92,62,0,0,0,0,0,64,1,-1--1--1,,1|(1631,2269)|
+12,612,48,2928,982,10,8,0,3,0,0,-1,0,0,0
+1,613,615,507,4,0,0,22,0,0,0,-1--1--1,,1|(3067,982)|
+1,614,615,612,100,0,0,22,0,0,0,-1--1--1,,1|(2977,982)|
+11,615,48,3022,982,6,8,34,3,0,0,1,0,0,0
+10,616,private consumption flow,3022,1009,56,19,40,3,0,0,-1,0,0,0
+1,617,477,616,0,0,0,0,0,128,0,-1--1--1,,1|(2941,945)|
+12,618,48,3433,967,10,8,0,3,0,0,-1,0,0,0
+1,619,621,507,4,0,0,22,0,0,0,-1--1--1,,1|(3283,970)|
+1,620,621,618,100,0,0,22,0,0,0,-1--1--1,,1|(3384,970)|
+11,621,48,3339,970,6,8,34,3,0,0,1,0,0,0
+10,622,net balance flow,3339,989,51,11,40,3,0,0,-1,0,0,0
+1,623,555,622,0,0,0,0,0,128,0,-1--1--1,,1|(3375,926)|
+1,624,537,622,0,0,0,0,0,128,0,-1--1--1,,1|(3349,1027)|
+12,625,48,3104,714,10,8,0,3,0,0,-1,0,0,0
+1,626,628,507,4,0,0,22,0,0,0,-1--1--1,,1|(3113,862)|
+1,627,628,625,100,0,0,22,0,0,0,-1--1--1,,1|(3113,741)|
+11,628,48,3113,767,8,6,33,3,0,0,4,0,0,0
+10,629,public expenditure flow,3174,767,53,19,40,3,0,0,-1,0,0,0
+12,630,48,3197,818,10,8,0,3,0,0,-1,0,0,0
+1,631,633,507,4,0,0,22,0,0,0,-1--1--1,,1|(3201,911)|
+1,632,633,630,100,0,0,22,0,0,0,-1--1--1,,1|(3201,842)|
+11,633,48,3201,865,8,6,33,3,0,0,4,0,0,0
+10,634,total gross capital formation flow,3265,865,56,19,40,3,0,0,-1,0,0,0
+1,635,100,507,0,0,0,0,0,64,1,-1--1--1,,1|(1695,1520)|
+1,636,482,629,0,0,0,0,0,128,0,-1--1--1,,1|(3058,779)|
+1,637,364,634,1,0,0,0,0,128,0,-1--1--1,,1|(3438,725)|
+1,638,537,475,0,0,0,0,0,128,0,-1--1--1,,1|(3388,1082)|
+12,639,48,1275,588,10,8,0,3,0,0,-1,0,0,0
+1,640,642,244,4,0,0,22,0,0,0,-1--1--1,,1|(1139,588)|
+1,641,642,639,100,0,0,22,0,0,0,-1--1--1,,1|(1227,588)|
+11,642,48,1183,588,6,8,34,3,0,0,1,0,0,0
+10,643,revenue companies,1183,607,60,11,40,3,0,0,-1,0,0,0
+1,644,209,643,0,0,0,0,0,128,0,-1--1--1,,1|(1376,559)|
+12,645,48,843,588,10,8,0,3,0,0,-1,0,0,0
+1,646,648,645,4,0,0,22,0,0,0,-1--1--1,,1|(892,588)|
+1,647,648,244,100,0,0,22,0,0,0,-1--1--1,,1|(982,588)|
+11,648,48,937,588,6,8,34,3,0,0,1,0,0,0
+10,649,companies expenditures,937,615,41,19,40,3,0,0,-1,0,0,0
+1,650,205,649,0,0,0,0,0,128,0,-1--1--1,,1|(841,538)|
+1,651,327,250,0,0,0,0,0,128,0,-1--1--1,,1|(972,699)|
+10,652,Gross capital formation companies,830,878,71,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,653,652,250,0,0,0,0,0,128,0,-1--1--1,,1|(834,821)|
+10,654,GDP deflator,680,772,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,655,654,250,0,0,0,0,0,128,0,-1--1--1,,1|(764,765)|
+10,656,Year,1232,332,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,657,157,166,0,0,0,0,0,128,0,-1--1--1,,1|(3438,417)|
+10,658,unit Billion,1300,2782,42,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,660,initial net profit,1012,514,46,11,8,3,0,0,0,0,0,0
+1,661,660,244,0,0,0,0,0,128,1,-1--1--1,,1|(1029,542)|
+12,662,48,1062,726,10,8,0,3,0,0,-1,0,0,0
+1,663,326,662,4,0,0,22,0,0,0,-1--1--1,,1|(1059,686)|
+10,664,Year,1228,320,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,665,664,234,0,1,0,0,0,128,0,-1--1--1,,1|(1206,325)|
+1,666,664,228,0,1,0,0,0,128,0,-1--1--1,,1|(1259,329)|
+10,667,Year,1722,392,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,668,667,210,0,1,0,0,0,128,0,-1--1--1,,1|(1686,385)|
+1,669,561,603,1,0,0,0,0,128,0,-1--1--1,,1|(1496,2746)|
+10,670,Year,1164,-18,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,671,670,236,0,1,0,0,0,128,0,-1--1--1,,1|(1175,33)|
+10,672,Year,3278,1094,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,673,672,512,0,1,0,0,0,128,0,-1--1--1,,1|(3253,1088)|
+10,674,Year,3276,326,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,675,674,166,0,1,0,0,0,128,0,-1--1--1,,1|(3349,330)|
+10,676,Year,860,686,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,677,676,327,0,1,0,0,0,128,0,-1--1--1,,1|(969,667)|
+10,678,Year,1712,996,26,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,680,678,333,0,1,0,0,0,128,0,-1--1--1,,1|(1700,953)|
+10,681,Year,1756,850,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,682,681,339,0,0,0,0,0,128,0,-1--1--1,,1|(1735,830)|
+1,683,569,205,0,0,0,0,0,128,0,-1--1--1,,1|(643,432)|
+///---\\\
+:GRAPH Total_Working_Age_Popula
+:TITLE Total Working Age Population
+:SCALE
+:VAR Total Working age population
+
+:GRAPH Youth_unemployment
+:TITLE Youth unemployment
+:SCALE
+:VAR youth unemployment
+
+:GRAPH Unemployment_rate
+:TITLE Unemployment rate
+:SCALE
+:VAR relative unemployment
+
+:GRAPH Workforce
+:TITLE Workforce
+:SCALE
+:VAR Total Workforce
+
+:GRAPH Available_labour_force
+:TITLE Available labour force
+:SCALE
+:VAR Total available Labor force
+
+:GRAPH Total_Population
+:TITLE Total Population
+:SCALE
+:VAR Total Population
+
+:GRAPH Real_disposable_income
+:TITLE Real disposable income
+:SCALE
+:VAR real disposable income
+
+:GRAPH Gross_Capital_formation_
+:TITLE Gross Capital formation companies
+:SCALE
+:VAR Gross capital formation companies
+
+:GRAPH net_profit_companies
+:TITLE net profit companies
+:SCALE
+:VAR profit
+
+:GRAPH profite_rate_companies
+:TITLE profite rate companies
+:SCALE
+:VAR profit rate
+
+:GRAPH Profit_share_companies
+:TITLE Profit share companies
+:SCALE
+:VAR profit share
+
+:GRAPH private_savings
+:TITLE private savings
+:SCALE
+:VAR private gross savings
+
+:GRAPH total_income_government
+:TITLE total income government
+:SCALE
+:VAR Total Tax Income
+
+:GRAPH Public_debt
+:TITLE Public debt
+:SCALE
+:VAR Public debt
+
+:GRAPH Total_Public_expenditure
+:TITLE Total Public expenditure
+:SCALE
+:VAR Total Expenditures excluding interest payments
+
+:GRAPH Public_budget_balance
+:TITLE Public budget balance
+:SCALE
+:VAR Public Budget Balance excluding interest payments
+
+:GRAPH Capacity_utilization
+:TITLE Capacity utilization
+:SCALE
+:VAR capacity utilization
+
+:GRAPH Net_trade_balance
+:TITLE Net trade balance
+:SCALE
+:VAR Net Balance
+
+:GRAPH Exports
+:TITLE Exports
+:SCALE
+:VAR exports
+
+:GRAPH Imports
+:TITLE Imports
+:SCALE
+:VAR Imports
+
+:GRAPH Average_nominal_wage
+:TITLE Average nominal wage
+:SCALE
+:VAR average nominal wage level
+
+:GRAPH Labour_productivity
+:TITLE Labour productivity
+:SCALE
+:VAR labour productivity
+
+:GRAPH Gross_capital_formation_Government
+:TITLE Gross capital formation Government
+:SCALE
+:VAR gross capital formation government
+
+:GRAPH Nominal_GDP
+:TITLE Nominal GDP
+:SCALE
+:VAR nominal GDP
+:L<%^E!@
+1:basic scenario3.vdf
+1:basic scenario.vdf
+9:basic scenario
+22:$,Dollar,Dollars,$s
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+22:Day,Days
+15:0,0,0,1,0,0
+19:50,0
+27:2,
+34:0,
+4:Time
+5:Total Companies Expenditures
+35:Date
+36:YYYY-MM-DD
+37:2017
+38:1
+39:1
+40:0
+41:0
+42:0
+24:2017
+25:2050
+26:2050
+6:Age15to19
+6:Age20to24
+6:Age25to29
+6:L0
